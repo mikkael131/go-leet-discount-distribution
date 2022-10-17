@@ -18,12 +18,6 @@ func main() {
 	//}
 
 	applyDiscountWithDonation(17, items)
-
-	fmt.Printf("\n\n\n")
-	fmt.Println("result:")
-	for i, item := range items {
-		fmt.Printf("Item [%d]: %+v\n", i, item)
-	}
 }
 
 func applyDiscountWithDonation(discount uint, items []*Item) {
@@ -91,6 +85,12 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 		item.UnitDiscount += discount.UnitValue
 		item.ItemDiscount += discount.TotalValue
 		item.DonatedDiscount += discount.Donation
+	}
+
+	fmt.Printf("\n\n\n")
+	fmt.Println("result:")
+	for i, item := range items {
+		fmt.Printf("Item [%d]: %+v\n", i, item)
 	}
 }
 
