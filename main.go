@@ -12,12 +12,13 @@ func main() {
 		{Id: "2", Quantity: 5, UnitPrice: 500},
 		{Id: "3", Quantity: 4, UnitPrice: 400},
 	}
+	applyDiscountWithDonation(17, items)
+
 	//items := []*Item{
 	//	{Id: "1", Quantity: 3, UnitPrice: 600},
 	//	{Id: "2", Quantity: 2, UnitPrice: 200},
 	//}
-
-	applyDiscountWithDonation(17, items)
+	//applyDiscountWithDonation(10, items)
 }
 
 func applyDiscountWithDonation(discount uint, items []*Item) {
@@ -96,7 +97,7 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 
 func recursiveDiscount(item *Item, items []*Item, appliedDiscounts Discounts, remaining uint) []Discounts {
 	if remaining <= 0 {
-		return []Discounts{appliedDiscounts}
+		return []Discounts{}
 	}
 
 	var alreadyApplied uint
@@ -108,7 +109,7 @@ func recursiveDiscount(item *Item, items []*Item, appliedDiscounts Discounts, re
 
 	discountable := item.TotalDiscountedPrice()
 	if discountable-alreadyApplied <= 0 {
-		return []Discounts{appliedDiscounts}
+		return []Discounts{}
 	}
 
 	onePenny := uint(1) // one cent unit discount
@@ -120,22 +121,27 @@ func recursiveDiscount(item *Item, items []*Item, appliedDiscounts Discounts, re
 	} else {
 		remaining -= totalPennies
 	}
-	appliedDiscounts = append(appliedDiscounts, Discount{
+	discount := Discount{
 		ItemId:     item.Id,
 		UnitValue:  onePenny,
 		TotalValue: totalPennies,
 		Donation:   donation,
 		Percent:    float64(totalPennies) / float64(discountable),
-	})
+	}
 
 	if donation > 0 {
-		return []Discounts{appliedDiscounts}
+		return []Discounts{{discount}}
 	}
 
 	var res []Discounts
 	for _, item := range items {
-		solutions := recursiveDiscount(item, items, append(Discounts{}, appliedDiscounts...), remaining)
-		res = append(res, solutions...)
+		solutions := recursiveDiscount(item, items, append(appliedDiscounts, discount), remaining)
+		if len(solutions) == 0 {
+			return []Discounts{{discount}}
+		}
+		for _, solution := range solutions {
+			res = append(res, append(Discounts{discount}, solution...))
+		}
 	}
 	return res
 }
