@@ -12,6 +12,10 @@ func main() {
 		{Id: "2", Quantity: 5, UnitPrice: 500},
 		{Id: "3", Quantity: 4, UnitPrice: 400},
 	}
+	//items := []*Item{
+	//	{Id: "1", Quantity: 3, UnitPrice: 600},
+	//	{Id: "2", Quantity: 2, UnitPrice: 200},
+	//}
 
 	applyDiscountWithDonation(17, items)
 
@@ -50,7 +54,10 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 	fmt.Printf("\n\n\n")
 	fmt.Printf("minDonationSolutions: len()=%d\n", len(minDonationSolutions))
 	for _, solution := range minDonationSolutions {
-		fmt.Printf("%+v\n", solution)
+		fmt.Printf("solution: %v\n", solution.SumPercent())
+		for _, v := range solution {
+			fmt.Printf("\t%+v\n", v)
+		}
 	}
 
 	minTotalPercent := math.MaxFloat64
@@ -58,6 +65,7 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 	for i, solution := range minDonationSolutions {
 		percent := solution.SumPercent()
 		if percent < minTotalPercent {
+			minTotalPercent = percent
 			minTotalPercentIndex = i
 		}
 	}
@@ -69,8 +77,10 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 	solution := minDonationSolutions[minTotalPercentIndex]
 
 	fmt.Printf("\n\n\n")
-	fmt.Printf("applying solution:")
-	fmt.Printf("%+v\n", solution)
+	fmt.Printf("applying solution: %v\n", solution.SumPercent())
+	for _, v := range solution {
+		fmt.Printf("\t%+v\n", v)
+	}
 
 	lookup := make(map[string]*Item, len(items))
 	for _, item := range items {
