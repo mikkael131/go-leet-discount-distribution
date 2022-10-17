@@ -5,7 +5,10 @@ import (
 	"math"
 )
 
+var debug = false
+
 func main() {
+	debug = true // the poor man's console logging switch
 
 	// Disclaimer: since this adds discount penny by penny, a proper discount distribution,
 	// should first break down a big discount proportionally while rounding down,
@@ -39,9 +42,11 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 		}
 	}
 
-	fmt.Printf("solutions: len()=%d\n", len(solutions))
-	for _, solution := range solutions {
-		fmt.Printf("%+v\n", solution)
+	if debug {
+		fmt.Printf("solutions: len()=%d\n", len(solutions))
+		for _, solution := range solutions {
+			fmt.Printf("%+v\n", solution)
+		}
 	}
 
 	minDonation := uint(math.MaxUint64)
@@ -56,12 +61,14 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 		}
 	}
 
-	fmt.Printf("\n\n\n")
-	fmt.Printf("minDonationSolutions: len()=%d\n", len(minDonationSolutions))
-	for _, solution := range minDonationSolutions {
-		fmt.Printf("solution: %v\n", solution.SumPercent())
-		for _, v := range solution {
-			fmt.Printf("\t%+v\n", v)
+	if debug {
+		fmt.Printf("\n\n\n")
+		fmt.Printf("minDonationSolutions: len()=%d\n", len(minDonationSolutions))
+		for _, solution := range minDonationSolutions {
+			fmt.Printf("solution: %v\n", solution.SumPercent())
+			for _, v := range solution {
+				fmt.Printf("\t%+v\n", v)
+			}
 		}
 	}
 
@@ -81,10 +88,13 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 
 	solution := minDonationSolutions[minTotalPercentIndex]
 
-	fmt.Printf("\n\n\n")
-	fmt.Printf("applying solution: %v\n", solution.SumPercent())
-	for _, v := range solution {
-		fmt.Printf("\t%+v\n", v)
+	if debug {
+		fmt.Printf("\n\n\n")
+		fmt.Printf("applying solution: %v\n", solution.SumPercent())
+		for _, v := range solution {
+			fmt.Printf("\t%+v\n", v)
+		}
+
 	}
 
 	lookup := make(map[string]*Item, len(items))
@@ -98,10 +108,12 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 		item.DonatedDiscount += discount.Donation
 	}
 
-	fmt.Printf("\n\n\n")
-	fmt.Println("result:")
-	for i, item := range items {
-		fmt.Printf("Item [%d]: %+v\n", i, item)
+	if debug {
+		fmt.Printf("\n\n\n")
+		fmt.Println("result:")
+		for i, item := range items {
+			fmt.Printf("Item [%d]: %+v\n", i, item)
+		}
 	}
 }
 

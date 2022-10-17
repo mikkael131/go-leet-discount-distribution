@@ -5,12 +5,13 @@ import (
 	"testing"
 )
 
-func Test_applyDiscountWithDonation(t *testing.T) {
-	type args struct {
-		discount uint
-		items    []*Item
-	}
-	tests := map[string]struct {
+type args struct {
+	discount uint
+	items    []*Item
+}
+
+var (
+	tests = map[string]struct {
 		args args
 		want []*Item
 	}{
@@ -69,12 +70,25 @@ func Test_applyDiscountWithDonation(t *testing.T) {
 			},
 		},
 	}
+)
+
+func Test_applyDiscountWithDonation(t *testing.T) {
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
 			applyDiscountWithDonation(tt.args.discount, tt.args.items)
 
 			if diff := cmp.Diff(tt.want, tt.args.items); diff != "" {
 				t.Errorf("diff(): %+v", diff)
+			}
+		})
+	}
+}
+
+func Benchmark_applyDiscountWithDonation(b *testing.B) {
+	for name, tt := range tests {
+		b.Run(name, func(b *testing.B) {
+			for n := 0; n < b.N; n++ {
+				applyDiscountWithDonation(tt.args.discount, tt.args.items)
 			}
 		})
 	}
