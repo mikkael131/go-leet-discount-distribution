@@ -42,6 +42,19 @@ func Test_applyDiscountWithDonation(t *testing.T) {
 				{Id: "2", Quantity: 2, UnitPrice: 200, UnitDiscount: 2, ItemDiscount: 4, DonatedDiscount: 0},
 			},
 		},
+		"find allocation with the least donation": {
+			args: args{
+				discount: 11,
+				items: []*Item{
+					{Id: "1", Quantity: 5, UnitPrice: 500},
+					{Id: "2", Quantity: 4, UnitPrice: 400},
+				},
+			},
+			want: []*Item{
+				{Id: "1", Quantity: 5, UnitPrice: 500, UnitDiscount: 0, ItemDiscount: 0, DonatedDiscount: 0},
+				{Id: "2", Quantity: 4, UnitPrice: 400, UnitDiscount: 3, ItemDiscount: 12, DonatedDiscount: 1},
+			},
+		},
 	}
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {

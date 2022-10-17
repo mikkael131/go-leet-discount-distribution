@@ -7,18 +7,24 @@ import (
 
 func main() {
 
-	items := []*Item{
-		{Id: "1", Quantity: 11, UnitPrice: 1100},
-		{Id: "2", Quantity: 5, UnitPrice: 500},
-		{Id: "3", Quantity: 4, UnitPrice: 400},
-	}
-	applyDiscountWithDonation(17, items)
+	//items := []*Item{
+	//	{Id: "1", Quantity: 11, UnitPrice: 1100},
+	//	{Id: "2", Quantity: 5, UnitPrice: 500},
+	//	{Id: "3", Quantity: 4, UnitPrice: 400},
+	//}
+	//applyDiscountWithDonation(17, items)
 
 	//items := []*Item{
 	//	{Id: "1", Quantity: 3, UnitPrice: 600},
 	//	{Id: "2", Quantity: 2, UnitPrice: 200},
 	//}
-	//applyDiscountWithDonation(10, items)
+	//applyDiscountWithDonation(11, items)
+
+	items := []*Item{
+		{Id: "1", Quantity: 5, UnitPrice: 500},
+		{Id: "2", Quantity: 4, UnitPrice: 400},
+	}
+	applyDiscountWithDonation(11, items)
 }
 
 func applyDiscountWithDonation(discount uint, items []*Item) {
