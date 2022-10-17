@@ -97,7 +97,7 @@ func applyDiscountWithDonation(discount uint, items []*Item) {
 
 func recursiveDiscount(item *Item, items []*Item, appliedDiscounts Discounts, remaining uint) []Discounts {
 	if remaining <= 0 {
-		return []Discounts{}
+		return nil
 	}
 
 	var alreadyApplied uint
@@ -109,7 +109,7 @@ func recursiveDiscount(item *Item, items []*Item, appliedDiscounts Discounts, re
 
 	discountable := item.TotalDiscountedPrice()
 	if discountable-alreadyApplied <= 0 {
-		return []Discounts{}
+		return nil
 	}
 
 	onePenny := uint(1) // one cent unit discount
@@ -136,12 +136,12 @@ func recursiveDiscount(item *Item, items []*Item, appliedDiscounts Discounts, re
 	var res []Discounts
 	for _, item := range items {
 		solutions := recursiveDiscount(item, items, append(appliedDiscounts, discount), remaining)
-		if len(solutions) == 0 {
-			return []Discounts{{discount}}
-		}
 		for _, solution := range solutions {
 			res = append(res, append(Discounts{discount}, solution...))
 		}
+	}
+	if len(res) == 0 {
+		res = append(res, append(Discounts{discount}))
 	}
 	return res
 }
