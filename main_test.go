@@ -55,6 +55,19 @@ func Test_applyDiscountWithDonation(t *testing.T) {
 				{Id: "2", Quantity: 4, UnitPrice: 400, UnitDiscount: 3, ItemDiscount: 12, DonatedDiscount: 1},
 			},
 		},
+		"exceeding discount": {
+			args: args{
+				discount: 1000,
+				items: []*Item{
+					{Id: "1", Quantity: 5, UnitPrice: 5},
+					{Id: "2", Quantity: 4, UnitPrice: 4},
+				},
+			},
+			want: []*Item{
+				{Id: "1", Quantity: 5, UnitPrice: 5, UnitDiscount: 5, ItemDiscount: 25, DonatedDiscount: 0},
+				{Id: "2", Quantity: 4, UnitPrice: 4, UnitDiscount: 4, ItemDiscount: 16, DonatedDiscount: 0},
+			},
+		},
 	}
 	for name, tt := range tests {
 		t.Run(name, func(t *testing.T) {
