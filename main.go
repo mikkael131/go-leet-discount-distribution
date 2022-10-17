@@ -7,6 +7,10 @@ import (
 
 func main() {
 
+	// Disclaimer: since this adds discount penny by penny, a proper discount distribution,
+	// should first break down a big discount proportionally while rounding down,
+	// then the remainder can be distributed on unit level with this while ensuring the least donation amount possible.
+
 	//items := []*Item{
 	//	{Id: "1", Quantity: 11, UnitPrice: 1100},
 	//	{Id: "2", Quantity: 5, UnitPrice: 500},
